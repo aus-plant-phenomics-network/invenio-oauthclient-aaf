@@ -173,22 +173,25 @@ version-dry:
     @echo ""
     @echo "Run 'just release' to create the release"
 
-# Bump version and create changelog
+# Bump version and create changelog (local only, no push)
 version:
-    uv run semantic-release version
+    uv run semantic-release version --no-push --no-vcs-release
+
+# Bump version, create changelog, and commit (but don't push)
+version-commit:
+    uv run semantic-release version --no-push
 
 # Create a full release (version + tag + changelog + GitHub release)
 release:
     @echo "🚀 Creating automated release..."
     @echo ""
-    uv run semantic-release publish
+    uv run semantic-release version
     @echo ""
     @echo "✅ Release complete!"
     @echo "   - Version bumped in pyproject.toml"
     @echo "   - CHANGELOG.md updated"
     @echo "   - Git tag created and pushed"
     @echo "   - GitHub release created"
-    @echo "   - publish.yml workflow will publish to PyPI"
 
 # Generate/update changelog only
 changelog:
