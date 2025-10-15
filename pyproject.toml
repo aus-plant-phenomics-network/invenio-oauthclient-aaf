@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "invenio-oauthclient-aaf"
-version = "0.1.0"
+version = "0.0.1"
 description = "AAF (Australian Access Federation) OAuth integration for InvenioRDM"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -127,8 +127,8 @@ dist_path = "dist/"
 upload_to_vcs_release = true
 upload_to_pypi = false
 upload_to_repository = false
-major_on_zero = false  # Stay in 0.x versions until explicit major release
-allow_zero_version = true  # Allow versions starting with 0.x
+major_on_zero = false                                          # Stay in 0.x versions until explicit major release
+allow_zero_version = true                                      # Allow versions starting with 0.x
 commit_message = "chore(release): bump version to {version}"
 
 [tool.semantic_release.branches.main]
