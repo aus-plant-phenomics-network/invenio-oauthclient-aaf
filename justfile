@@ -12,6 +12,9 @@
 #   just test     - Run tests
 #   just release  - Create automated release
 
+# Load .env file if it exists
+set dotenv-load := true
+
 # List all available commands (default)
 default:
     @just --list

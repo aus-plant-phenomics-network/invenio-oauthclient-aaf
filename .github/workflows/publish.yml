@@ -1,0 +1,111 @@
+name: Publish to PyPI
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build distribution
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - name: Install just
+        uses: extractions/setup-just@v2
+
+      - name: Build package
+        run: just build
+
+      - name: Check package contents
+        run: |
+          echo "📦 Built packages:"
+          ls -lh dist/
+          echo ""
+          echo "📄 Tarball contents (first 30 lines):"
+          tar -tzf dist/*.tar.gz | head -30
+          echo ""
+          echo "📄 Wheel contents (first 30 lines):"
+          unzip -l dist/*.whl | head -30
+
+      - name: Upload distributions
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-package-distributions
+          path: dist/
+
+  publish-to-pypi:
+    name: Publish to PyPI
+    needs: [build]
+    runs-on: ubuntu-latest
+    # Only publish to PyPI on full releases (not prereleases)
+    if: ${{ !github.event.release.prerelease }}
+    environment:
+      name: pypi
+      url: https://pypi.org/p/invenio-oauthclient-aaf
+    permissions:
+      id-token: write # IMPORTANT: mandatory for trusted publishing
+
+    steps:
+      - name: Download distributions
+        uses: actions/download-artifact@v4
+        with:
+          name: python-package-distributions
+          path: dist/
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+
+  publish-to-test-pypi:
+    name: Publish to TestPyPI
+    needs: [build]
+    runs-on: ubuntu-latest
+    # Only publish to TestPyPI on prereleases (e.g., v1.0.0-rc1)
+    if: github.event.release.prerelease
+    environment:
+      name: testpypi
+      url: https://test.pypi.org/p/invenio-oauthclient-aaf
+    permissions:
+      id-token: write # IMPORTANT: mandatory for trusted publishing
+
+    steps:
+      - name: Download distributions
+        uses: actions/download-artifact@v4
+        with:
+          name: python-package-distributions
+          path: dist/
+
+      - name: Publish to TestPyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+
+  create-github-release-notes:
+    name: Upload to GitHub Release
+    needs: [publish-to-pypi]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # IMPORTANT: mandatory for making GitHub Releases
+
+    steps:
+      - name: Download distributions
+        uses: actions/download-artifact@v4
+        with:
+          name: python-package-distributions
+          path: dist/
+
+      - name: Upload artifacts to GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload '${{ github.ref_name }}' dist/** --repo '${{ github.repository }}'
