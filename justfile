@@ -172,7 +172,7 @@ version-check:
 version-dry:
     @echo "ℹ️  Showing what the next release would contain:"
     @echo ""
-    uv run semantic-release version --print
+    uv run semantic-release -v --noop version
     @echo ""
     @echo "Run 'just release' to create the release"
 
