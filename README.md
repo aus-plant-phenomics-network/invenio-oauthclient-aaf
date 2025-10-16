@@ -220,8 +220,6 @@ aaf_helper = AAFSettingsHelper(
 
 - **[Quick Start Guide](docs/QUICKSTART.md)** - Get started quickly
 - **[Usage Examples](docs/USAGE_EXAMPLES.md)** - Detailed usage scenarios
-- **[Package Structure](docs/PACKAGE_STRUCTURE.md)** - Architecture and setup guide
-- **[Modernization Guide](docs/MODERNIZATION.md)** - Modern Python tooling (uv & ruff)
 - **[Semantic Release Guide](docs/SEMANTIC_RELEASE.md)** - Automated releases with semantic-release
 - **[Publishing Guide](PUBLISHING.md)** - Manual publishing process
 
@@ -316,23 +314,19 @@ invenio-oauthclient-aaf/
 │   ├── test_handlers.py         # Handler tests
 │   └── test_remote.py           # Remote configuration tests
 ├── docs/                        # Documentation
-│   ├── README.md                # Documentation index
 │   ├── QUICKSTART.md            # Quick start guide
+│   ├── README.md                # Documentation index
 │   ├── USAGE_EXAMPLES.md        # Usage examples
-│   ├── JUSTFILE_GUIDE.md        # Guide for using justfile
-│   ├── PACKAGE_STRUCTURE.md     # Package structure details
-│   ├── MODERNIZATION.md         # Modernization notes
 │   └── SEMANTIC_RELEASE.md      # Semantic release guide
 ├── scripts/                     # Utility scripts
 │   ├── setup_dev.sh             # Development setup script
 ├── .github/                     # GitHub configuration
 │   ├── workflows/               # CI/CD workflows
-│   └── SEMANTIC_RELEASE_CHEATSHEET.md
-├── README.md                    # Main project documentation
-├── CONTRIBUTING.md              # Contribution guidelines
 ├── CHANGELOG.md                 # Version changelog
-├── RELEASE.md                   # Release guide
+├── CONTRIBUTING.md              # Contribution guidelines
 ├── PUBLISHING.md                # Publishing guide
+├── README.md                    # Main project documentation
+├── RELEASE.md                   # Release guide
 ├── setup.py                     # Package setup configuration
 ├── pyproject.toml               # Modern Python project configuration
 ├── justfile                     # Command runner (recommended)
