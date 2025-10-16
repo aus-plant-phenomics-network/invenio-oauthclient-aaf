@@ -109,15 +109,11 @@ indent-style = "space"
 
 [tool.commitizen]
 name = "cz_conventional_commits"
-version = "0.1.0"
 tag_format = "v$version"
-version_files = ["pyproject.toml:version"]
-update_changelog_on_bump = true
 
 
 [tool.semantic_release]
 version_toml = ["pyproject.toml:project.version"]
-version_variables = ["pyproject.toml:tool.commitizen.version"]
 branch = "main"
 build_command = """
     uv lock --upgrade-package "$PACKAGE_NAME"
