@@ -113,49 +113,65 @@ indent-style = "space"
 
 [tool.commitizen]
 name = "cz_conventional_commits"
-version = "0.0.1"
+version = "0.1.0"
 tag_format = "v$version"
 version_files = ["pyproject.toml:version"]
 update_changelog_on_bump = true
+
 
 [tool.semantic_release]
 version_toml = ["pyproject.toml:project.version"]
 version_variables = ["pyproject.toml:tool.commitizen.version"]
 branch = "main"
-build_command = "uv build"
+build_command = """
+    uv lock --upgrade-package "$PACKAGE_NAME"
+    git add uv.lock
+    uv build
+"""
 dist_path = "dist/"
 upload_to_vcs_release = true
 upload_to_pypi = false
 upload_to_repository = false
-major_on_zero = false                                          # Stay in 0.x versions until explicit major release
-allow_zero_version = true                                      # Allow versions starting with 0.x
+major_on_zero = false # Stay in 0.x versions until explicit major release
+allow_zero_version = true
+assets = []
+build_command_env = []
 commit_message = "chore(release): bump version to {version}"
+commit_parser = "conventional"
+logging_use_named_masks = false
+repo_dir = "."
+no_git_verify = false
+tag_format = "v{version}"
 
 [tool.semantic_release.branches.main]
 match = "main"
 prerelease = false
+prerelease_token = "rc"
 
-[tool.semantic_release.commit_parser_options]
-allowed_tags = [
-  "feat",
-  "fix",
-  "perf",
-  "refactor",
-  "docs",
-  "style",
-  "test",
-  "build",
-  "ci",
-  "chore",
-]
-minor_tags = ["feat"]
-patch_tags = ["fix", "perf", "refactor"]
+[tool.semantic_release.branches.alpha]
+# Matches branches with the prefixes 'feat/', 'fix/', or 'perf/'.
+match = "^(feat|fix|perf)/.+"
+prerelease = true
+prerelease_token = "alpha"
 
 [tool.semantic_release.changelog]
-exclude_commit_patterns = []
+changelog_file = "CHANGELOG.md"
+exclude_commit_patterns = [
+  '''chore(?:\([^)]*?\))?: .+''',
+  '''ci(?:\([^)]*?\))?: .+''',
+  '''refactor(?:\([^)]*?\))?: .+''',
+  '''style(?:\([^)]*?\))?: .+''',
+  '''test(?:\([^)]*?\))?: .+''',
+  '''build\((?!deps\): .+)''',
+  '''Initial [Cc]ommit.*''',
+]
+mode = "update"
+insertion_flag = "<!-- version list -->"
 
 [tool.semantic_release.changelog.default_templates]
 changelog_file = "CHANGELOG.md"
+output_format = "md"
+mask_initial_release = true
 
 [tool.semantic_release.changelog.environment]
 block_start_string = "{%"
@@ -169,7 +185,46 @@ lstrip_blocks = false
 newline_sequence = "\n"
 keep_trailing_newline = false
 extensions = []
-autoescape = true
+autoescape = false
+
+# [tool.semantic_release.commit_author]
+# env = "GIT_COMMIT_AUTHOR"
+# default = "semantic-release <semantic-release>"
+
+[tool.semantic_release.commit_parser_options]
+minor_tags = ["feat"]
+patch_tags = ["fix", "perf", "refactor"]
+other_allowed_tags = [
+  "build",
+  "chore",
+  "ci",
+  "docs",
+  "style",
+  "refactor",
+  "test",
+]
+allowed_tags = [
+  "feat",
+  "fix",
+  "perf",
+  "build",
+  "chore",
+  "ci",
+  "docs",
+  "style",
+  "refactor",
+  "test",
+]
+default_bump_level = 0
+parse_squash_commits = true
+ignore_merge_commits = true
 
 [tool.semantic_release.remote]
+name = "origin"
 type = "github"
+ignore_token_for_push = false
+insecure = false
+
+[tool.semantic_release.publish]
+dist_glob_patterns = ["dist/*"]
+upload_to_vcs_release = true
