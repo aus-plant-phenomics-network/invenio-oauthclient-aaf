@@ -1,7 +1,5 @@
 """AAF OAuth handlers for user account information."""
 
-from flask import current_app
-
 
 def account_info(remote, resp):
     """Retrieve AAF account information from userinfo endpoint.
@@ -21,7 +19,7 @@ def account_info(remote, resp):
 
     # Call AAF's userinfo endpoint
     try:
-        userinfo_url = current_app.config.get("AAF_USERINFO_URL")
+        userinfo_url = f"{remote.base_url}/oidc/userinfo"
         user_info_response = remote.get(userinfo_url)
 
         user_info = user_info_response.data

@@ -11,7 +11,6 @@ def app():
     flask_app.config.update(
         {
             "TESTING": True,
-            "AAF_USERINFO_URL": "https://central.aaf.edu.au/oidc/userinfo",
             "SECRET_KEY": "test-secret-key",
         }
     )

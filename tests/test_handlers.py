@@ -15,6 +15,7 @@ class TestAccountInfo:
         """Test successful user info retrieval."""
         # Mock remote and response
         remote = Mock()
+        remote.base_url = "https://central.aaf.edu.au"
         resp = {"access_token": "test_token_123"}
 
         # Mock the userinfo response
@@ -37,7 +38,7 @@ class TestAccountInfo:
         assert result["external_id"] == "user123"
         assert result["external_method"] == "aaf"
 
-        # Verify the correct endpoint was called
+        # Verify the correct endpoint was called with dynamically constructed URL
         remote.get.assert_called_once_with("https://central.aaf.edu.au/oidc/userinfo")
 
     def test_account_info_no_access_token(self):
@@ -52,6 +53,7 @@ class TestAccountInfo:
     def test_account_info_no_email(self, app_context):
         """Test handling of missing email in user info."""
         remote = Mock()
+        remote.base_url = "https://central.aaf.edu.au"
         resp = {"access_token": "test_token_123"}
 
         mock_user_info_response = Mock()
@@ -69,6 +71,7 @@ class TestAccountInfo:
     def test_account_info_no_sub(self, app_context):
         """Test handling of missing sub (user ID) in user info."""
         remote = Mock()
+        remote.base_url = "https://central.aaf.edu.au"
         resp = {"access_token": "test_token_123"}
 
         mock_user_info_response = Mock()
@@ -86,6 +89,7 @@ class TestAccountInfo:
     def test_account_info_username_fallback(self, app_context):
         """Test username fallback when preferred_username is missing."""
         remote = Mock()
+        remote.base_url = "https://central.aaf.edu.au"
         resp = {"access_token": "test_token_123"}
 
         mock_user_info_response = Mock()
@@ -106,6 +110,7 @@ class TestAccountInfo:
     def test_account_info_empty_name(self, app_context):
         """Test handling of empty name field."""
         remote = Mock()
+        remote.base_url = "https://central.aaf.edu.au"
         resp = {"access_token": "test_token_123"}
 
         mock_user_info_response = Mock()
@@ -125,6 +130,7 @@ class TestAccountInfo:
     def test_account_info_api_error(self, app_context):
         """Test handling of AAF API errors."""
         remote = Mock()
+        remote.base_url = "https://central.aaf.edu.au"
         resp = {"access_token": "test_token_123"}
 
         # Simulate API error
@@ -132,6 +138,51 @@ class TestAccountInfo:
 
         with pytest.raises(Exception, match="Network error"):
             account_info(remote, resp)
+
+    # pylint: disable=unused-argument
+    def test_userinfo_url_construction(self, app_context):
+        """Test that userinfo URL is constructed from base_url."""
+        remote = Mock()
+        remote.base_url = "https://central.aaf.edu.au"
+        resp = {"access_token": "test_token_123"}
+
+        mock_user_info_response = Mock()
+        mock_user_info_response.data = {
+            "sub": "user123",
+            "email": "test@example.edu.au",
+            "name": "Test User",
+            "preferred_username": "testuser",
+        }
+        remote.get.return_value = mock_user_info_response
+
+        account_info(remote, resp)
+
+        # Verify URL is constructed from base_url
+        expected_url = f"{remote.base_url}/oidc/userinfo"
+        remote.get.assert_called_once_with(expected_url)
+
+    # pylint: disable=unused-argument
+    def test_userinfo_url_construction_sandbox(self, app_context):
+        """Test that userinfo URL works with sandbox environment."""
+        remote = Mock()
+        remote.base_url = "https://central.test.aaf.edu.au"
+        resp = {"access_token": "test_token_123"}
+
+        mock_user_info_response = Mock()
+        mock_user_info_response.data = {
+            "sub": "user123",
+            "email": "test@example.edu.au",
+            "name": "Test User",
+            "preferred_username": "testuser",
+        }
+        remote.get.return_value = mock_user_info_response
+
+        account_info(remote, resp)
+
+        # Verify sandbox URL is constructed correctly
+        expected_url = f"{remote.base_url}/oidc/userinfo"
+        remote.get.assert_called_once_with(expected_url)
+        assert "test.aaf.edu.au" in expected_url
 
 
 class TestAccountSetup:  # pylint: disable=too-few-public-methods

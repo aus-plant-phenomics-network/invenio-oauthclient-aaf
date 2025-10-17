@@ -52,9 +52,6 @@ AAF_APP_CREDENTIALS = {
     "consumer_key": "your-aaf-client-id-here",
     "consumer_secret": "your-aaf-client-secret-here",
 }
-
-# Configure the AAF userinfo endpoint
-AAF_USERINFO_URL = "https://central.aaf.edu.au/providers/op/userinfo"
 ```
 
 ## Step 4: Restart Services
@@ -81,9 +78,6 @@ from invenio_oauthclient_aaf import AAF_SANDBOX_REMOTE_APP
 OAUTHCLIENT_REMOTE_APPS = {
     "aaf": AAF_SANDBOX_REMOTE_APP,
 }
-
-# Configure the AAF sandbox userinfo endpoint
-AAF_USERINFO_URL = "https://central.test.aaf.edu.au/providers/op/userinfo"
 ```
 
 ### Disable Local Login
@@ -161,5 +155,5 @@ OAUTHCLIENT_REMOTE_APPS = {
 ## Need Help?
 
 - Check the [full documentation](../README.md)
-- Open an issue on [GitHub](https://github.com/aus-plant-phenomics-network/invenio-oauthclient-aaf/issues) <!-- TODO: update URL -->
+- Open an issue on [GitHub](https://github.com/aus-plant-phenomics-network/invenio-oauthclient-aaf/issues)
 - Contact AAF support: support@aaf.edu.au

@@ -19,9 +19,6 @@ AAF_APP_CREDENTIALS = {
     "consumer_key": "your-client-id",
     "consumer_secret": "your-client-secret",
 }
-
-# Configure the AAF userinfo endpoint
-AAF_USERINFO_URL = "https://central.aaf.edu.au/providers/op/userinfo"
 ```
 
 ## Using AAFSettingsHelper
@@ -176,9 +173,6 @@ AAF_APP_CREDENTIALS = {
     "consumer_key": "test-client-id",
     "consumer_secret": "test-client-secret",
 }
-
-# Configure the sandbox userinfo endpoint
-AAF_USERINFO_URL = "https://central.test.aaf.edu.au/providers/op/userinfo"
 ```
 
 Or create a custom sandbox configuration:
@@ -203,8 +197,6 @@ AAF_TEST_CREDENTIALS = {
     "consumer_key": "test-client-id",
     "consumer_secret": "test-client-secret",
 }
-
-AAF_USERINFO_URL = "https://central.test.aaf.edu.au/providers/op/userinfo"
 ```
 
 ### Switch Between Environments
@@ -220,16 +212,12 @@ aaf_env = os.environ.get("AAF_ENVIRONMENT", "production")
 
 if aaf_env == "sandbox":
     remote_app = AAF_SANDBOX_REMOTE_APP
-    userinfo_url = "https://central.test.aaf.edu.au/providers/op/userinfo"
 else:
     remote_app = AAF_REMOTE_APP
-    userinfo_url = "https://central.aaf.edu.au/providers/op/userinfo"
 
 OAUTHCLIENT_REMOTE_APPS = {
     "aaf": remote_app,
 }
-
-AAF_USERINFO_URL = userinfo_url
 ```
 
 ## Troubleshooting Examples
@@ -277,11 +265,10 @@ print(f"\nHandlers: {AAF_REMOTE_APP['params']['handlers']}")
 1. **Use environment variables** for credentials, never commit them to version control
 2. **Test in sandbox** before deploying to production using `AAF_SANDBOX_REMOTE_APP`
 3. **Enable auto-confirm** for trusted identity providers like AAF (enabled by default)
-4. **Configure the AAF_USERINFO_URL** setting for both production and sandbox environments
-5. **Request only necessary scopes** to minimize data exposure (default: `openid profile email`)
-6. **Use descriptive titles** to help users identify the correct login method
-7. **Monitor logs** during initial deployment to catch configuration issues
-8. **Use the pre-configured remote apps** (`AAF_REMOTE_APP`, `AAF_SANDBOX_REMOTE_APP`) for simplicity
+4. **Request only necessary scopes** to minimize data exposure (default: `openid profile email`)
+5. **Use descriptive titles** to help users identify the correct login method
+6. **Monitor logs** during initial deployment to catch configuration issues
+7. **Use the pre-configured remote apps** (`AAF_REMOTE_APP`, `AAF_SANDBOX_REMOTE_APP`) for simplicity - they handle userinfo URL construction automatically
 
 ## See Also
 
