@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- version list -->
 
+## v0.1.2 (2025-10-17)
+
+### Bug Fixes
+
+- Update author detail
+  ([#2](https://github.com/aus-plant-phenomics-network/invenio-oauthclient-aaf/pull/2),
+  [`5644490`](https://github.com/aus-plant-phenomics-network/invenio-oauthclient-aaf/commit/56444903437b3d102abac353b1b41a1ffdbf9bd8))
+
+
 ## v0.1.1 (2025-10-16)
 
 ### Documentation
