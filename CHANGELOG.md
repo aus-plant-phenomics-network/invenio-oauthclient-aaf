@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- version list -->
 
+## v0.1.3 (2025-10-21)
+
+### Refactoring
+
+- Remove AAF_USERINFO_URL
+  ([`45bdba0`](https://github.com/aus-plant-phenomics-network/invenio-oauthclient-aaf/commit/45bdba0fc16f4e26b71f20c1d70360c64178b50f))
+
+
 ## v0.1.2 (2025-10-17)
 
 ### Bug Fixes
