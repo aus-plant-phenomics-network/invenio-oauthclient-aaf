@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- version list -->
 
+## v0.2.0 (2025-10-24)
+
+### Chores
+
+- Remove Makefile support
+  ([`6985438`](https://github.com/aus-plant-phenomics-network/invenio-oauthclient-aaf/commit/6985438b5026165810cbf4ff1f731b6b12376b51))
+
+
 ## v0.1.3 (2025-10-21)
 
 ### Refactoring
