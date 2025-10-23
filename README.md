@@ -242,12 +242,10 @@ pre-commit install --hook-type commit-msg
 ```bash
 # Run tests (choose your preferred tool)
 uv run pytest       # Direct
-make test          # Make
-just test          # just (recommended)
+just test          # just
 
 # Run tests with coverage
-make test-cov      # Make
-just test-cov      # just (recommended)
+just test-cov      # just
 
 # View coverage report
 open htmlcov/index.html
@@ -278,28 +276,17 @@ just update-hooks
 - ✅ Conventional commit message validation
 - ✅ pyproject.toml validation
 
-### Task Runners
+### Task Runner
 
-This project supports multiple task runners for your convenience:
+This project uses **`just`** - a modern task runner with simple syntax:
 
-- **`just`** (recommended) - Modern task runner with simple syntax
+```bash
+just            # List all commands
+just test       # Run tests
+just build      # Build package
+```
 
-  ```bash
-  just            # List all commands
-  just test       # Run tests
-  just build      # Build package
-  ```
-
-  Install: `brew install just` or see [justfile](justfile) for more options
-
-- **`make`** (traditional) - Standard Unix build tool
-  ```bash
-  make help       # List all commands
-  make test       # Run tests
-  make build      # Build package
-  ```
-
-Both provide the same functionality. Use whichever you prefer!
+Install: `brew install just` or see [justfile](justfile) for more options
 
 ### Project structure
 
@@ -329,8 +316,7 @@ invenio-oauthclient-aaf/
 ├── RELEASE.md                   # Release guide
 ├── setup.py                     # Package setup configuration
 ├── pyproject.toml               # Modern Python project configuration
-├── justfile                     # Command runner (recommended)
-├── Makefile                     # Legacy make commands
+├── justfile                     # Command runner
 ├── pytest.ini                   # Pytest configuration
 ├── .pre-commit-config.yaml      # Pre-commit hooks
 └── uv.lock                      # UV package lock file

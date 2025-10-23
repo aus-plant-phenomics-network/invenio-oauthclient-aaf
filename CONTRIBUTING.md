@@ -133,8 +133,7 @@ invenio-oauthclient-aaf/
 ├── RELEASE.md                   # Release guide
 ├── setup.py                     # Package setup configuration
 ├── pyproject.toml               # Modern Python project configuration
-├── justfile                     # Command runner (recommended)
-├── Makefile                     # Legacy make commands
+├── justfile                     # Command runner
 ├── pytest.ini                   # Pytest configuration
 ├── .pre-commit-config.yaml      # Pre-commit hooks
 └── uv.lock                      # UV package lock file
